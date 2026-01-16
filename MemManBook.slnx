@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="MemManBook.vcxproj" Id="62706211-61f0-45fe-be89-101cd8018d5c" />
+</Solution>
