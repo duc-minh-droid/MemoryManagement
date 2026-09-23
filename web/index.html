@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MemManBook Visualizer</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand">
+    <span class="logo" aria-hidden="true"></span>
+    <div>
+      <h1>MemManBook</h1>
+      <p>Arena, Pool and World allocators, replayed from a real <code>--trace</code> run</p>
+    </div>
+  </div>
+  <nav class="controls" aria-label="Playback">
+    <div class="sections" id="sections"></div>
+    <button id="prev" title="Previous step (Left arrow)">&#9664;</button>
+    <button id="play" class="primary" title="Play / pause (Space)">Play</button>
+    <button id="next" title="Next step (Right arrow)">&#9654;</button>
+    <select id="speed" title="Playback speed">
+      <option value="0.5">0.5x</option>
+      <option value="1" selected>1x</option>
+      <option value="2">2x</option>
+      <option value="4">4x</option>
+    </select>
+    <input id="scrub" type="range" min="0" value="0" aria-label="Step">
+    <span id="counter" class="counter">0 / 0</span>
+  </nav>
+</header>
+
+<section class="caption" id="caption">
+  <span class="chip" id="sectionChip">Arena</span>
+  <span id="captionText">Loading trace...</span>
+</section>
+
+<main class="layout">
+  <div class="memory">
+    <section class="panel" id="panel-spells">
+      <header><h2>Arena <span class="sub">"spells", 256 bytes</span></h2><span class="stat" id="spellsStat"></span></header>
+      <div class="strip-wrap"><div class="strip" id="strip-spells"></div></div>
+    </section>
+
+    <section class="panel" id="panel-pool">
+      <header><h2>Pool&lt;Monster, 6&gt; <span class="sub">40-byte slots, free stack</span></h2><span class="stat" id="poolStat"></span></header>
+      <div class="pool" id="pool">
+        <div class="pool-head" id="poolHead">HEAD</div>
+        <div class="pool-slots" id="poolSlots"></div>
+        <svg class="pool-arrows" id="poolArrows"></svg>
+      </div>
+    </section>
+
+    <section class="panel" id="panel-world">
+      <header><h2>World <span class="sub">1024-byte arena + record table + world_ptr handles</span></h2><span class="stat" id="worldStat"></span></header>
+      <div class="strip-wrap"><div class="strip" id="strip-world"></div></div>
+      <div class="world-grid">
+        <table class="records" id="records">
+          <thead><tr><th>rec</th><th>gen</th><th>refs</th><th>object</th><th>arena @</th></tr></thead>
+          <tbody></tbody>
+        </table>
+        <div class="handles">
+          <div class="handles-title">live world_ptr handles</div>
+          <div id="handles"></div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="side">
+    <section class="panel game">
+      <header><h2>Dungeon</h2><span class="stat">hover a monster to find its bytes</span></header>
+      <svg id="game" viewBox="0 0 420 300" role="img" aria-label="Game view"></svg>
+    </section>
+    <section class="panel console">
+      <header><h2>Program output</h2><span class="stat" id="evType"></span></header>
+      <div class="log" id="log"></div>
+      <pre class="raw" id="raw"></pre>
+    </section>
+  </div>
+</main>
+
+<svg class="links" id="links" aria-hidden="true"></svg>
+
+<script src="trace.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
