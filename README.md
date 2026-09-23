@@ -1,5 +1,7 @@
 # MemManBook
 
+**Live demo:** https://memory-management-phi.vercel.app
+
 Three small C++ allocators for game objects (a bump arena, a fixed-slot pool, and a
 reference-counted "world" with generation-checked handles), plus a web page that replays a
 real run of the program byte by byte.
