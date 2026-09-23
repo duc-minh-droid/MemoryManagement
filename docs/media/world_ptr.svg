@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 380" width="900" height="380" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#5fd08a"/></marker>
+    <marker id="r" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ff5d6c"/></marker>
+    <marker id="w" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#8a90a6"/></marker>
+    <style>
+      .t { fill: #e6e8ef; font-size: 14px; }
+      .h { fill: #e6e8ef; font-size: 17px; font-weight: 700; }
+      .m { fill: #8a90a6; font-size: 12px; }
+      .mono { font-family: Consolas, "Cascadia Code", monospace; font-size: 13px; }
+    </style>
+  </defs>
+  <rect width="900" height="380" rx="14" fill="#0f1117"/>
+  <text x="30" y="40" class="h">World + world_ptr: refcounts for lifetime, generations for safety</text>
+  <text x="30" y="60" class="m">Handles point at a Record slot, not at the object. Each handle remembers the slot's generation when it was made.</text>
+
+  <!-- handles -->
+  <text x="30" y="100" class="m">handles</text>
+  <rect x="30" y="112" width="190" height="40" rx="7" fill="#14231b" stroke="#5fd08a"/>
+  <text x="44" y="137" class="mono" fill="#5fd08a">wyvern: rec 1, gen 2</text>
+  <rect x="30" y="172" width="190" height="40" rx="7" fill="#2a1419" stroke="#ff5d6c" stroke-dasharray="5 3"/>
+  <text x="44" y="197" class="mono" fill="#ffb3ba">remembered: rec 1, gen 1</text>
+
+  <!-- record table -->
+  <text x="330" y="100" class="m">std::deque&lt;Record&gt; (never moves on push_back)</text>
+  <g class="mono">
+    <rect x="330" y="112" width="270" height="34" fill="#171a23" stroke="#2b3042"/>
+    <text x="342" y="134" fill="#8a90a6">rec 0</text><text x="400" y="134" fill="#ffb454">gen 1</text><text x="460" y="134" fill="#e6e8ef">refs 1  Minotaur</text>
+    <rect x="330" y="146" width="270" height="34" fill="#232a3e" stroke="#4a5372"/>
+    <text x="342" y="168" fill="#8a90a6">rec 1</text><text x="400" y="168" fill="#ffb454" font-weight="700">gen 2</text><text x="460" y="168" fill="#e6e8ef">refs 1  Wyvern</text>
+    <rect x="330" y="180" width="270" height="34" fill="#171a23" stroke="#2b3042"/>
+    <text x="342" y="202" fill="#8a90a6">rec 2</text><text x="400" y="202" fill="#ffb454">gen 2</text><text x="460" y="202" fill="#e6e8ef">refs 1  Lich</text>
+  </g>
+  <path d="M222 132 C 270 132, 280 160, 326 162" stroke="#5fd08a" stroke-width="2" fill="none" marker-end="url(#g)"/>
+  <path d="M222 192 C 270 192, 280 168, 326 166" stroke="#ff5d6c" stroke-width="2" fill="none" marker-end="url(#r)" stroke-dasharray="5 3"/>
+
+  <!-- arena -->
+  <text x="680" y="100" class="m">World arena (1024 B)</text>
+  <rect x="680" y="112" width="190" height="102" rx="6" fill="#232838"/>
+  <rect x="690" y="120" width="170" height="16" rx="3" fill="#c3e88d"/><text x="696" y="132" font-size="11" fill="#10131a" font-family="Consolas, monospace">@0 Minotaur</text>
+  <rect x="690" y="140" width="170" height="16" rx="3" fill="#4a4f63"/><text x="696" y="152" font-size="11" fill="#d0d2dc" font-family="Consolas, monospace">@40 Dragon (dead)</text>
+  <rect x="690" y="160" width="170" height="16" rx="3" fill="#4a4f63"/><text x="696" y="172" font-size="11" fill="#d0d2dc" font-family="Consolas, monospace">@80 Skeleton (dead)</text>
+  <rect x="690" y="180" width="170" height="16" rx="3" fill="#7aa2ff"/><text x="696" y="192" font-size="11" fill="#10131a" font-family="Consolas, monospace">@120 Lich</text>
+  <rect x="690" y="198" width="170" height="12" rx="3" fill="#9ad0ff"/><text x="696" y="208" font-size="9" fill="#10131a" font-family="Consolas, monospace">@160 Wyvern</text>
+  <path d="M602 163 C 640 163, 650 204, 686 204" stroke="#8a90a6" stroke-width="1.5" fill="none" marker-end="url(#w)"/>
+
+  <!-- check -->
+  <rect x="30" y="244" width="840" height="112" rx="10" fill="#171a23" stroke="#2b3042"/>
+  <text x="50" y="272" class="t" font-weight="700">operator-&gt;() checks</text>
+  <text x="50" y="296" class="mono" fill="#e6e8ef">record_-&gt;alive &amp;&amp; record_-&gt;generation == generation_</text>
+  <text x="50" y="322" class="t"><tspan fill="#5fd08a">match</tspan>: return the object.   <tspan fill="#ff5d6c">mismatch</tspan>: throw <tspan class="mono">dangling_world_ptr</tspan>. A stale handle also never touches refCount,</text>
+  <text x="50" y="342" class="t">so it cannot keep the slot's new occupant alive or free it early. kill() and collect() bump the generation.</text>
+</svg>

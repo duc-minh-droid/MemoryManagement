@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 220" width="900" height="220" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#ffb454"/></marker>
+    <style>
+      .t { fill: #e6e8ef; font-size: 15px; font-weight: 700; }
+      .m { fill: #8a90a6; font-size: 12px; }
+      .mono { font-family: Consolas, "Cascadia Code", monospace; font-size: 12px; fill: #9fb4ff; }
+    </style>
+  </defs>
+  <rect width="900" height="220" rx="14" fill="#0f1117"/>
+
+  <rect x="30" y="30" width="250" height="160" rx="10" fill="#171a23" stroke="#2b3042"/>
+  <text x="50" y="58" class="t">MemManBook (C++17)</text>
+  <text x="50" y="84" class="m">main.cpp runs three scenes:</text>
+  <text x="50" y="104" class="m">Arena spells, Pool monsters, World</text>
+  <text x="50" y="130" class="m">Arena.h / Pool.h / World.h call</text>
+  <text x="50" y="148" class="mono">trace::emit(type, fields)</text>
+  <text x="50" y="172" class="m">std::cout is captured as "log" events</text>
+
+  <path d="M285 110 L 355 110" stroke="#ffb454" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="320" y="100" class="m" text-anchor="middle">--trace</text>
+
+  <rect x="360" y="30" width="230" height="160" rx="10" fill="#171a23" stroke="#2b3042"/>
+  <text x="380" y="58" class="t">web/trace.js</text>
+  <text x="380" y="80" class="mono">{"seq":8,</text>
+  <text x="380" y="96" class="mono"> "type":"arena_alloc",</text>
+  <text x="380" y="112" class="mono"> "offset":48,"pad":4,</text>
+  <text x="380" y="128" class="mono"> "size":40,"top":88,</text>
+  <text x="380" y="144" class="mono"> "label":"Frost Bolt"}</text>
+  <text x="380" y="172" class="m">~180 events, also as trace.json</text>
+
+  <path d="M595 110 L 665 110" stroke="#ffb454" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="630" y="100" class="m" text-anchor="middle">replay</text>
+
+  <rect x="670" y="30" width="200" height="160" rx="10" fill="#171a23" stroke="#2b3042"/>
+  <text x="690" y="58" class="t">web/index.html</text>
+  <text x="690" y="84" class="m">folds events 0..k into state</text>
+  <text x="690" y="104" class="m">byte strips, pool slots,</text>
+  <text x="690" y="122" class="m">free-stack arrows, records,</text>
+  <text x="690" y="140" class="m">handles, dungeon view</text>
+  <text x="690" y="172" class="m">no build step, opens offline</text>
+</svg>

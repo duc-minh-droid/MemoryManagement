@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 430" width="900" height="430" font-family="Segoe UI, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#ffb454"/>
+    </marker>
+    <pattern id="pad" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+      <rect width="6" height="6" fill="#262a3a"/><rect width="3" height="6" fill="#3a3f55"/>
+    </pattern>
+    <pattern id="dead" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+      <rect width="8" height="8" fill="#353a4c"/><rect width="4" height="8" fill="#4a4f63"/>
+    </pattern>
+    <style>
+      .t { fill: #e6e8ef; font-size: 14px; }
+      .h { fill: #e6e8ef; font-size: 17px; font-weight: 700; }
+      .m { fill: #8a90a6; font-size: 12px; }
+      .mono { font-family: Consolas, "Cascadia Code", monospace; }
+      .blk { fill: #10131a; font-size: 12px; font-weight: 700; font-family: Consolas, monospace; }
+    </style>
+  </defs>
+  <rect width="900" height="430" rx="14" fill="#0f1117"/>
+
+  <!-- Arena -->
+  <text x="30" y="40" class="h">Arena: bump allocation, bulk reset</text>
+  <text x="30" y="60" class="m">create&lt;T&gt;() pads to alignof(T), constructs in place, moves the pointer forward. Nothing is freed individually.</text>
+  <rect x="30" y="80" width="840" height="46" rx="5" fill="#232838"/>
+  <rect x="30" y="80" width="131" height="46" rx="3" fill="#ffb454"/>
+  <text x="38" y="100" class="blk">Spell</text><text x="38" y="117" class="blk" font-weight="400" font-size="11">@0  40 B</text>
+  <rect x="162" y="80" width="13" height="46" fill="#7aa2ff"/>
+  <rect x="176" y="80" width="13" height="46" fill="url(#pad)"/>
+  <rect x="190" y="80" width="131" height="46" rx="3" fill="#5fd08a"/>
+  <text x="198" y="100" class="blk">Spell</text><text x="198" y="117" class="blk" font-weight="400" font-size="11">@48  40 B</text>
+  <rect x="322" y="80" width="131" height="46" rx="3" fill="url(#dead)"/>
+  <text x="330" y="100" class="blk" fill="#d0d2dc">released</text><text x="330" y="117" class="blk" font-weight="400" font-size="11" fill="#d0d2dc">hole until reset</text>
+  <line x1="455" y1="72" x2="455" y2="134" stroke="#ffb454" stroke-width="3"/>
+  <rect x="425" y="146" width="62" height="20" rx="4" fill="#ffb454"/>
+  <text x="456" y="160" text-anchor="middle" font-size="12" font-weight="700" fill="#1b1300" class="mono">offset_</text>
+  <path d="M500 156 C 560 156, 580 156, 640 156" stroke="#ffb454" stroke-width="2" fill="none" marker-end="url(#a)" stroke-dasharray="5 4"/>
+  <text x="650" y="160" class="m">next create() lands here</text>
+  <text x="155" y="150" class="m" text-anchor="middle">4 B DamageRoll</text>
+  <text x="183" y="168" class="m" text-anchor="middle">+ 4 B pad</text>
+  <text x="30" y="196" class="t">reset(): run the registered destructors in reverse, clear the list, set <tspan class="mono" fill="#ffb454">offset_ = buffer_</tspan>.</text>
+
+  <!-- Pool -->
+  <line x1="30" y1="222" x2="870" y2="222" stroke="#2b3042"/>
+  <text x="30" y="254" class="h">Pool&lt;T, N&gt;: fixed slots, LIFO free stack</text>
+  <text x="30" y="274" class="m">create() pops a slot index, destroy() pushes it back. The last slot freed is the next one handed out.</text>
+  <rect x="30" y="296" width="70" height="36" rx="6" fill="#1e2230" stroke="#ffb454"/>
+  <text x="65" y="319" text-anchor="middle" font-size="13" font-weight="700" fill="#ffb454" class="mono">HEAD</text>
+  <g class="mono" font-size="12">
+    <rect x="130" y="290" width="110" height="50" rx="6" fill="#e58cff"/><text x="140" y="308" fill="#10131a">slot 0</text><text x="140" y="328" class="blk">Troll</text>
+    <rect x="250" y="290" width="110" height="50" rx="6" fill="#ffb454"/><text x="260" y="308" fill="#10131a">slot 1</text><text x="260" y="328" class="blk">Orc</text>
+    <rect x="370" y="290" width="110" height="50" rx="6" fill="#232838" stroke="#2b3042"/><text x="380" y="308" fill="#8a90a6">slot 2</text><text x="380" y="328" fill="#8a90a6">free</text>
+    <rect x="490" y="290" width="110" height="50" rx="6" fill="#232838" stroke="#2b3042"/><text x="500" y="308" fill="#8a90a6">slot 3</text><text x="500" y="328" fill="#8a90a6">free</text>
+    <rect x="610" y="290" width="110" height="50" rx="6" fill="#232838" stroke="#2b3042"/><text x="620" y="308" fill="#8a90a6">slot 4</text><text x="620" y="328" fill="#8a90a6">free</text>
+    <rect x="730" y="290" width="110" height="50" rx="6" fill="#232838" stroke="#2b3042"/><text x="740" y="308" fill="#8a90a6">slot 5</text><text x="740" y="328" fill="#8a90a6">free</text>
+  </g>
+  <path d="M65 332 C 65 390, 425 390, 425 344" stroke="#ffb454" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <path d="M425 342 C 425 380, 545 380, 545 344" stroke="#ffb454" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <path d="M545 342 C 545 380, 665 380, 665 344" stroke="#ffb454" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <path d="M665 342 C 665 380, 785 380, 785 344" stroke="#ffb454" stroke-width="2" fill="none" marker-end="url(#a)"/>
+  <text x="30" y="412" class="t">A <tspan class="mono" fill="#ff5d6c">live_[N]</tspan> flag per slot rejects double frees, but a stale raw <tspan class="mono">T*</tspan> into a reused slot still goes unnoticed.</text>
+</svg>
