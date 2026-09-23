@@ -142,6 +142,7 @@
     <ClInclude Include="Spell.h" />
     <ClInclude Include="World.h" />
     <ClInclude Include="world_ptr.h" />
+    <ClInclude Include="Trace.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />

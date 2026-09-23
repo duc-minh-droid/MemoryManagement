@@ -69,3 +69,6 @@ ipch/
 
 # Visual Studio cache directory
 .vs/
+
+# CMake / g++ builds
+build/
